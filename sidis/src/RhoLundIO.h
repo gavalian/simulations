@@ -41,7 +41,7 @@ inline void printLundCLAS12(const RhoEvent&   ev,
     out << particles.size()             << ' '
         << 1                       << ' '
         << 1                        << ' '
-        << 0             << ' '
+        << ev.pol             << ' '
         << 0             << ' '
         << 11             << ' '
         << ev.beamE             << ' '
