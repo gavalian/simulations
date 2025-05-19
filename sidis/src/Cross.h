@@ -69,64 +69,66 @@ public:
  }
 
 
- void updateWeight(Candidate &cand){
-
-   double t = (cand.ev.p_out-cand.ev.p_in).M2();
-   PhysicsInput ph = loadPhysicsInputs(cand.ev.xB,cand.ev.Q2,t);
-   auto WUU = Wkernels::UU(ph.u,cand.ev.eps, cand.ev.phiPi,
-                                          cand.ev.thetaPi);
-
-   auto WLU = Wkernels::LU(ph.u,cand.ev.eps, cand.ev.phiPi,
-                                          cand.ev.thetaPi);
-   double cosTheta = std::cos(cand.ev.thetaPi);
-   double sinTheta = std::sin(cand.ev.thetaPi);
-   double W_UU = WUU.LL;//*cosTheta*cosTheta;
-   double σ3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dσT_dt,ph.dσL_dt);
-   double W_LU = cosTheta*cosTheta*WLU.LL+std::sqrt(2)*cosTheta*sinTheta*WLU.LT+sinTheta*sinTheta*WLU.TT;
-
-   std::cerr << WLU.LL << " " << WLU.LT << "  " << WLU.TT << std::endl; 
-   ph.Pl = cand.ev.pol<0?-1:1;
-   
-   double w  = dsigma_7fold(0,W_LU,0,0,0,0,
-                              ph.Pl,ph.SL,ph.ST, σ3);
-   
-   
-   //std::cout << "  w uu "  << W_UU <<  " weight = " << w << "  sigma 3 " <<  σ3 <<  std::endl;
-  cand.weight = w;
-  //cand.weight = σ3;
-  //cand.weight = 1.0;
-  if(w<0) {
-    std::cerr << " Error: the weight of the event for q2 = " << cand.ev.Q2 << " / xb = "
-	      << cand.ev.xB << " POL = " << ph.Pl << "  σ = " << w
-	      <<  " , σ3 = " << σ3 << std::endl;
-    cand.weight = 0.0;
+  void updateWeight(Candidate &cand){
     
-  }
- }
+    double t = (cand.ev.p_out-cand.ev.p_in).M2();
+    PhysicsInput ph = loadPhysicsInputs(cand.ev.xB,cand.ev.Q2,t);
+    auto WUU = Wkernels::UU(ph.u,cand.ev.eps, cand.ev.phiPi,
+			    cand.ev.thetaPi);
+    
+    auto WLU = Wkernels::LU(ph.u,cand.ev.eps, cand.ev.phiPi,
+			    cand.ev.thetaPi);
+    double cosTheta = std::cos(cand.ev.thetaPi);
+    double sinTheta = std::sin(cand.ev.thetaPi);
 
+    double σ3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dσT_dt,ph.dσL_dt);
+    double W_LU = cosTheta*cosTheta*WLU.LL+std::sqrt(2)*cosTheta*sinTheta*WLU.LT+sinTheta*sinTheta*WLU.TT;
+    double W_UU = cosTheta*cosTheta*WUU.LL+std::sqrt(2)*cosTheta*sinTheta*WUU.LT+sinTheta*sinTheta*WUU.TT;
+
+
+    ph.Pl = cand.ev.pol<0?-1:1;
+    
+    double w  = dsigma_7fold(W_UU,W_LU,0,0,0,0,
+			     ph.Pl,ph.SL,ph.ST, σ3);
+
+    //double wcheck = ph.Pl*W_LU;
+    /*std::cerr << WLU.LL << " " << WLU.LT << "  " << WLU.TT << " W LU = "
+      << W_LU << " sigma3 = " << σ3 << " w =  " << w << "  pol = " << ph.Pl << std::endl;     */
+    //std::cout << "  w uu "  << W_UU <<  " weight = " << w << "  sigma 3 " <<  σ3 <<  std::endl;
+    cand.weight = w;
+    //cand.weight = σ3;
+    //cand.weight = 1.0;
+    if(w<0) {
+      std::cerr << " Error: the weight of the event for q2 = " << cand.ev.Q2 << " / xb = "
+		<< cand.ev.xB << " POL = " << ph.Pl << "  σ = " << w
+		<<  " , σ3 = " << σ3 << std::endl;
+      cand.weight = 0.0;
+    }
+  }
+  
   PhysicsInput loadPhysicsInputs(double /*xB*/, double /*Q2*/,
                                 double t /*GeV²*/)
- {
-     PhysicsInput ph{};
-
-     /* ---------------------------------------------------------------
-      *  TODO:
-      *  1.  Set the u,l,s helicity matrices for the chosen (xB,Q²,t)
-      *      or read them from a file.
-      *  2.  Provide dσT/dt and dσL/dt (nb/GeV²).
-      * --------------------------------------------------------------*/
-     ph.dσT_dt = 1.0;   // placeholder
-     ph.dσL_dt = 1.0;   // placeholder
-
-     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {0.04560, 0.0000};   // real example
-     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {0.03450, 0.0000};   // real example
-     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00234, -0.0012};   // real example
-     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('-')][Wkernels::h('+')] = {0.00123, 0.0000};
-     ph.l[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00000, 0.0120};
-
-     //ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.0150, 0.0240};   // real example
-     //ph.l[Wkernels::h('+')][Wkernels::h('-')][Wkernels::h('0')][Wkernels::h('+')] = {0.0,    -0.0071};  // imaginary
-     return ph;
+  {
+    PhysicsInput ph{};
+    
+    /* ---------------------------------------------------------------
+     *  TODO:
+     *  1.  Set the u,l,s helicity matrices for the chosen (xB,Q²,t)
+     *      or read them from a file.
+     *  2.  Provide dσT/dt and dσL/dt (nb/GeV²).
+     * --------------------------------------------------------------*/
+    ph.dσT_dt = 1.0;   // placeholder
+    ph.dσL_dt = 1.0;   // placeholder
+    
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {0.04560, 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {0.03450, 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00234, 0.0012};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('-')][Wkernels::h('+')] = {0.00123, 0.0000};
+    ph.l[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00000, 0.0120};
+    
+    //ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.0150, 0.0240};   // real example
+    //ph.l[Wkernels::h('+')][Wkernels::h('-')][Wkernels::h('0')][Wkernels::h('+')] = {0.0,    -0.0071};  // imaginary
+    return ph;
  }
 };
 
