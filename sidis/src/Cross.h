@@ -73,11 +73,12 @@ public:
     
     double t = (cand.ev.p_out-cand.ev.p_in).M2();
     PhysicsInput ph = loadPhysicsInputs(cand.ev.xB,cand.ev.Q2,t);
-    auto WUU = Wkernels::UU(ph.u,cand.ev.eps, cand.ev.phiPi,
-			    cand.ev.thetaPi);
+    auto WUU = Wkernels::UU(ph.u,cand.ev.eps, cand.ev.phi,
+			    cand.ev.phiPi);
     
-    auto WLU = Wkernels::LU(ph.u,cand.ev.eps, cand.ev.phiPi,
-			    cand.ev.thetaPi);
+    auto WLU = Wkernels::LU(ph.u,cand.ev.eps, cand.ev.phi,
+			    cand.ev.phiPi);
+    
     double cosTheta = std::cos(cand.ev.thetaPi);
     double sinTheta = std::sin(cand.ev.thetaPi);
 
@@ -120,14 +121,11 @@ public:
     ph.dσT_dt = 1.0;   // placeholder
     ph.dσL_dt = 1.0;   // placeholder
     
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {0.04560, 0.0000};   // real example
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {0.03450, 0.0000};   // real example
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00234, 0.0012};   // real example
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('-')][Wkernels::h('+')] = {0.00123, 0.0000};
-    ph.l[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00000, 0.0120};
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {1.00, 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {1.00, 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.25, 0.2000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('-')][Wkernels::h('+')] = {0.00, 0.0000};
     
-    //ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.0150, 0.0240};   // real example
-    //ph.l[Wkernels::h('+')][Wkernels::h('-')][Wkernels::h('0')][Wkernels::h('+')] = {0.0,    -0.0071};  // imaginary
     return ph;
  }
 };
