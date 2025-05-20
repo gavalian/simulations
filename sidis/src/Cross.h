@@ -107,7 +107,7 @@ public:
     }
   }
   
-  PhysicsInput loadPhysicsInputs(double /*xB*/, double /*Q2*/,
+  PhysicsInput loadPhysicsInputs(double xB, double Q2,
                                 double t /*GeV²*/)
   {
     PhysicsInput ph{};
