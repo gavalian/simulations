@@ -20,7 +20,7 @@ struct Candidate {
  
  struct PhysicsInput {
      Wkernels::Mat4 u, l, s;
-     double dσT_dt, dσL_dt;   // [nb / GeV²]
+     double dsigmaT_dt, dsigmaL_dt;   // [nb / GeV²]
      double Pl = 0.0, SL = 0.0, ST = 0.0;   // polarisations
  };
 
@@ -28,7 +28,7 @@ class Cross {
 
   TRandom3 rng;
   double beamEnergy = 10.6;
-  static constexpr double αem  = 1.0 / 137.035999084;
+  static constexpr double alem  = 1.0 / 137.035999084;
 
 public:
 
@@ -51,21 +51,21 @@ public:
   }
 
    double dsigma_3fold(double xB, double Q2, double y,
-                            double eps, double dσT_dt, double dσL_dt)
+                            double eps, double dsigmaT_dt, double dsigmaL_dt)
  {
-     double pref = αem/(2.0*M_PI);
+     double pref = alem/(2.0*M_PI);
      double kin  = (y*y)/(1.0-eps)*(1.0-xB)/xB/Q2;
-     return pref * kin * (dσT_dt + eps*dσL_dt);
+     return pref * kin * (dsigmaT_dt + eps*dsigmaL_dt);
  }
 
   double dsigma_7fold(double WUU,double WLU,double WUL,
                             double WLL,double WUT,double WLT,
                             double Pl,double SL,double ST,
-                            double σ3)
+                            double sigma3)
  {
      double S = WUU + Pl*WLU + SL*WUL + Pl*SL*WLL
                       + ST*WUT + Pl*ST*WLT;
-     return σ3 * S / (4.0*M_PI*M_PI);
+     return sigma3 * S / (4.0*M_PI*M_PI);
  }
 
 
@@ -82,7 +82,7 @@ public:
     double cosTheta = std::cos(cand.ev.thetaPi);
     double sinTheta = std::sin(cand.ev.thetaPi);
 
-    double σ3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dσT_dt,ph.dσL_dt);
+    double σ3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dsigmaT_dt,ph.dsigmaL_dt);
     double W_LU = cosTheta*cosTheta*WLU.LL+std::sqrt(2)*cosTheta*sinTheta*WLU.LT+sinTheta*sinTheta*WLU.TT;
     double W_UU = cosTheta*cosTheta*WUU.LL+std::sqrt(2)*cosTheta*sinTheta*WUU.LT+sinTheta*sinTheta*WUU.TT;
 
@@ -118,8 +118,8 @@ public:
      *      or read them from a file.
      *  2.  Provide dσT/dt and dσL/dt (nb/GeV²).
      * --------------------------------------------------------------*/
-    ph.dσT_dt = 1.0;   // placeholder
-    ph.dσL_dt = 1.0;   // placeholder
+    ph.dsigmaT_dt = 1.0;   // placeholder
+    ph.dsigmaL_dt = 1.0;   // placeholder
     
     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {1.00, 0.0000};   // real example
     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {1.00, 0.0000};   // real example
