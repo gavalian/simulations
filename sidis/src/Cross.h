@@ -38,10 +38,10 @@ public:
      double q2 = rng.Uniform(Q2_min,Q2_max);
      double xb = rng.Uniform(xB_min,xB_max);
      double pl = rng.Uniform(-1.0,1.0);
-     
+     double pc = pl>0?1.0:-1.0;
      cand.ev.Q2  = q2;
      cand.ev.xB  = xb;
-     cand.ev.pol = pl;
+     cand.ev.pol = pc;
      
      cand.ev.beamE = beamEnergy;
      cand.ev.BuildScatteredElectron();
