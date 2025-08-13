@@ -82,7 +82,7 @@ public:
     double cosTheta = std::cos(cand.ev.thetaPi);
     double sinTheta = std::sin(cand.ev.thetaPi);
 
-    double σ3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dsigmaT_dt,ph.dsigmaL_dt);
+    double sigma3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dsigmaT_dt,ph.dsigmaL_dt);
     double W_LU = cosTheta*cosTheta*WLU.LL+std::sqrt(2)*cosTheta*sinTheta*WLU.LT+sinTheta*sinTheta*WLU.TT;
     double W_UU = cosTheta*cosTheta*WUU.LL+std::sqrt(2)*cosTheta*sinTheta*WUU.LT+sinTheta*sinTheta*WUU.TT;
 
@@ -90,7 +90,7 @@ public:
     ph.Pl = cand.ev.pol<0?-1:1;
     
     double w  = dsigma_7fold(W_UU,W_LU,0,0,0,0,
-			     ph.Pl,ph.SL,ph.ST, σ3);
+			     ph.Pl,ph.SL,ph.ST, sigma3);
 
     //double wcheck = ph.Pl*W_LU;
     /*std::cerr << WLU.LL << " " << WLU.LT << "  " << WLU.TT << " W LU = "
@@ -102,7 +102,7 @@ public:
     if(w<0) {
       std::cerr << " Error: the weight of the event for q2 = " << cand.ev.Q2 << " / xb = "
 		<< cand.ev.xB << " POL = " << ph.Pl << "  σ = " << w
-		<<  " , σ3 = " << σ3 << std::endl;
+		<<  " , sigma3 = " << sigma3 << std::endl;
       cand.weight = 0.0;
     }
   }
