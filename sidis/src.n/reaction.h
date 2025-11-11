@@ -54,6 +54,8 @@ public:
   }
 
   double Q2(){return rq2;}
+  double E(){return rbeam;}
+
   double xB(){return rxb;}
   double pol(){return rpol;}
   
