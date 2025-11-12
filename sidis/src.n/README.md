@@ -34,3 +34,20 @@ decay:  -1.08148   0.12368   3.61233 [  1.02000]
 dgt 1:  -0.58369   0.18683   1.97271 [  0.49368]
 dgt 2:  -0.49778  -0.06315   1.63962 [  0.49368]
 ```
+
+# running for LUND output
+
+run command:
+
+```
+root -l -q -b rhoproduce.C
+```
+
+or 
+
+```
+root -l -q -b phiproduce.C
+```
+
+the script prints out events in LUND format on the screen. the header contains
+q2,xb, production theta and phi, and decay theta and phi, starting from column 11;
