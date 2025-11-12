@@ -96,7 +96,7 @@ public:
             if (std::fabs(uz.Dot(tmp)) > 0.9)
                 tmp = TVector3(0,1,0);
         }*/
-        TVector3 uy = tmp.Cross(uz);
+        TVector3 uy = tmp.Cross(uz).Unit();
         TVector3 ux = uy.Cross(uz);
         /*        TVector3 tmp = refVec;
         if (tmp.Cross(uz).Mag2() < 1e-6) {

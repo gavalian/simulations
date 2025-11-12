@@ -1,9 +1,10 @@
 #include "generator.h"
 
-void generate2(){
+void phiproduce(){
   // define a reaction to decay to proton and rho
   // where rho decays to two pions
-  sim::candidate cr(10.6,0.77,0.13957,0.13957);
+  //sim::candidate cr(10.6,0.77,0.13957,0.13957);
+  sim::candidate cr(10.6,1.02,0.49368,0.49368);
   sim::generator gen(&cr);
   sim::event     event;
   
@@ -12,8 +13,8 @@ void generate2(){
 
   for(int j = 0; j < 24; j++) {
     gen.generate();
-    cr.react.show();
-    //cr.react.getEvent(event);
-    //event.show();
+    //cr.react.show();
+    cr.react.getEvent(event);
+    event.show();
   }
 }

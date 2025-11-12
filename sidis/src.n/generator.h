@@ -3,6 +3,7 @@
 #ifndef __GENERATOR__
 #define __GENERATOR__
 
+namespace sim {
 class generator {
  private:
 
@@ -39,8 +40,8 @@ class generator {
       counter++;
     }
     cand->react.generate(q2,xb);
-    printf("random (Q2,xb) : %4d %8.5f %8.5f\n",counter,q2,xb);
+    //printf("random (Q2,xb) : %4d %8.5f %8.5f\n",counter,q2,xb);
   }
 };
-
+}
 #endif
