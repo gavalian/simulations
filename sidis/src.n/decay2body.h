@@ -31,6 +31,8 @@ class decay2body{
     fizika::vector3 uz = parent.vect().unit();
     fizika::vector3 uy = uz.cross(ux);
 
+    //ref.print("ref ");
+    //parent.print("par ");
     /* CoordinateTransformer::Basis E{
         {1,0,0}, {0,1,0}, {0,0,1}
     };
@@ -70,7 +72,7 @@ class decay2body{
     std::vector<fizika::lorentz4> a;
     
     fizika::lorentz4 vl1(  vE.x(), vE.y(), vE.z(), sqrt(vE.mag2()+m1*m1));
-    fizika::lorentz4 vl2( -vE.x(),-vE.y(),-vE.z(), sqrt(vE.mag2()+m1*m1));
+    fizika::lorentz4 vl2( -vE.x(),-vE.y(),-vE.z(), sqrt(vE.mag2()+m2*m2));
     
     fizika::vector3 boost = parent.boostVector();
     vl1.boost( boost );

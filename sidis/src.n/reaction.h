@@ -121,7 +121,7 @@ namespace sim {
       prodTheta   = acos(cos_t);
       prodPhi     = phi;
       fizika::lorentz4 cm = q + p_in;
-      std::vector<fizika::lorentz4> products = decay.decay(q,cm,Mp,Mv,cos_t,phi);
+      std::vector<fizika::lorentz4> products = decay.decay(e_out,cm,Mp,Mv,cos_t,phi);
       p_out = products[0];
       vec   = products[1];
     }
