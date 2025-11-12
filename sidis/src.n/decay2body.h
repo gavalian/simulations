@@ -21,31 +21,18 @@ class decay2body{
   *******************************************************************************/
   std::vector<fizika::lorentz4>  decay( fizika::lorentz4 &ref, fizika::lorentz4 &parent, double m1, double m2, double costheta, double phi){
     
-    double M = parent.m();
-    double M2 = M*M;
-    double term = (M2 - (m1 + m2)*(m1 + m2))
-      * (M2 - (m1 - m2)*(m1 - m2));
+    double M = parent.m(); double M2 = M*M;
+    double term = (M2 - (m1 + m2)*(m1 + m2)) * (M2 - (m1 - m2)*(m1 - m2));
     double p = (term > 0 ? std::sqrt(term)/(2.0*M) : 0.0);
 
     fizika::vector3 ux = parent.vect().cross(ref.vect()).unit();
     fizika::vector3 uz = parent.vect().unit();
     fizika::vector3 uy = uz.cross(ux);
 
-    //ref.print("ref ");
-    //parent.print("par ");
-    /* CoordinateTransformer::Basis E{
-        {1,0,0}, {0,1,0}, {0,0,1}
-    };
-    
-    CoordinateTransformer::Basis U{
-      {ux.x(),ux.y(),ux.z()}, {uy.x(),uy.y(),uy.z()}, {uz.x(),uz.y(),uz.z()}
-      };*/
-
     fizika::transformer::basis E{{1,0,0}, {0,1,0}, {0,0,1}};
     fizika::transformer::basis U{
       {ux.x(),ux.y(),ux.z()}, {uy.x(),uy.y(),uy.z()}, {uz.x(),uz.y(),uz.z()}
     };
-    //CoordinateTransformer trans(E, U);
     fizika::transformer trans(E,U);
     
     double sintheta = sqrt(1-costheta*costheta);
@@ -53,33 +40,18 @@ class decay2body{
     double py = p*sintheta*sin(phi);
     double pz = p*costheta;
 
-    //CoordinateTransformer::Vec3 vU{px,py,pz};
-    //CoordinateTransformer::Vec3 vE = trans.toE(vU);
-    fizika::vector3 vU(px,py,pz);
-    fizika::vector3 vE = trans.toE(vU);
-    
-    //ux.print("ux : ");
-    //uy.print("uy : ");
-    //uz.print("uz : ");
-
-    //printf("momentum = %f\n",p);
-
-
+    fizika::vector3 vU(px,py,pz); fizika::vector3 vE = trans.toE(vU);
     fizika::vector3 vp1(vE.x(),vE.y(),vE.z());
 
-    //parent.vect().print("pr : ");
-    //vp1.print("dv : ");
-    std::vector<fizika::lorentz4> a;
+    std::vector<fizika::lorentz4> list;
     
     fizika::lorentz4 vl1(  vE.x(), vE.y(), vE.z(), sqrt(vE.mag2()+m1*m1));
     fizika::lorentz4 vl2( -vE.x(),-vE.y(),-vE.z(), sqrt(vE.mag2()+m2*m2));
     
     fizika::vector3 boost = parent.boostVector();
-    vl1.boost( boost );
-    vl2.boost( boost );
-    a.push_back(vl1);
-    a.push_back(vl2);
-    return a;
+    vl1.boost( boost );  vl2.boost( boost );
+    list.push_back(vl1); list.push_back(vl2);
+    return list;
   }
   /*******************************************************************************
    * FNCTION:
