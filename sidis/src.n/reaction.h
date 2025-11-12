@@ -1,4 +1,4 @@
-//#include "TwoBodyDecay.h"
+
 #include "fizika.h"
 #include "decay2body.h"
 
@@ -24,11 +24,15 @@ namespace sim {
   };
     
   class event {
-  private:
+    
+  public:
     std::vector<particle> pts;
     std::vector<double>   params;
     int beamPol = 1;
-    int targetPol = 1;
+    int targetPol = 0;
+    int beamPID = 11;
+    int targetPID = 2212;
+    double beamEnergy = 10.6;
     
   public:
     event(){}
@@ -39,7 +43,8 @@ namespace sim {
     fizika::lorentz4 vector(int row){ return pts[row].v;};
     
     void show(int row){
-      printf("%3d  0  %3d %6d %3d  0  %9.5f %9.5f %9.5f %9.5f %9.5f %9.5f %9.5f %9.5f\n",row+1,
+      printf("%3d  0 %3d %6d %3d  0  %9.5f %9.5f %9.5f %9.5f %9.5f %9.5f %9.5f %9.5f\n",
+	     row+1,
 	     pts[row].status,pts[row].pid, pts[row].status,
 	     pts[row].v.px(),pts[row].v.py(),pts[row].v.pz(),
 	     pts[row].v.e(),pts[row].v.m(),
@@ -47,7 +52,10 @@ namespace sim {
 	     );
     }
     void show(){
-      printf("%5d %4d %4d %4d ", (int) pts.size(), 0, beamPol, targetPol);
+      printf("%5d %4d %4d %5.2f %5.2f %5d %8.5f %5d %3d %e ",
+	     (int) pts.size(), beamPol, targetPol,
+	     0.0,1.0, beamPID, beamEnergy, targetPID, 1, 0.6
+	     );
       for(int i = 0; i < (int) params.size(); i++) printf("%9.5f ",params[i]);
       printf("\n");
       for(int i = 0; i < (int) pts.size(); i++) show(i);
