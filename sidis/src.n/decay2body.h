@@ -25,9 +25,9 @@ class decay2body{
     double term = (M2 - (m1 + m2)*(m1 + m2)) * (M2 - (m1 - m2)*(m1 - m2));
     double p = (term > 0 ? std::sqrt(term)/(2.0*M) : 0.0);
 
-    fizika::vector3 ux = parent.vect().cross(ref.vect()).unit();
+    fizika::vector3 uy = ref.vect().cross(parent.vect()).unit();//parent.vect().cross(ref.vect()).unit();
     fizika::vector3 uz = parent.vect().unit();
-    fizika::vector3 uy = uz.cross(ux);
+    fizika::vector3 ux = uy.cross(uz);
 
     fizika::transformer::basis E{{1,0,0}, {0,1,0}, {0,0,1}};
     fizika::transformer::basis U{

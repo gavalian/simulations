@@ -107,7 +107,7 @@ namespace sim {
     void produce__2(){
       double cos_t = rng.Uniform(-1,1); double phi = rng.Uniform(-M_PI, M_PI);
       prodTheta   = acos(cos_t); prodPhi = phi; fizika::lorentz4 cm = q + p_in;
-      std::vector<fizika::lorentz4> products = decay.decay(q,cm,Mp,Mv,cos_t,phi);
+      std::vector<fizika::lorentz4> products = decay.decay(e_out,cm,Mp,Mv,cos_t,phi);
       p_out = products[0]; vec = products[1];
     }
     //-------------------------------------------------------------------------
