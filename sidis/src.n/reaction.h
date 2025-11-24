@@ -47,12 +47,18 @@ namespace sim {
     }
     void show(){
       printf("%5d %4d %4d %5.2f %5.2f %5d %8.5f %5d %3d %e ",
-	     (int) pts.size(), (int) beamPol, (int) targetPol,
-	     0.0,1.0, beamPID, beamEnergy, targetPID, 1, 0.6
+	     (int) pts.size(), 1, 0, beamPol, targetPol,
+	     beamPID, beamEnergy, targetPID, 1, 0.6
 	     );
       for(int i = 0; i < (int) params.size(); i++) printf("%9.5f ",params[i]);
       printf("\n");
       for(int i = 0; i < (int) pts.size(); i++) show(i);
+    }
+
+    void rotateZ(double phi){
+      for(int i = 0; i < (int) pts.size(); i++){
+	pts[i].v.rotateZ(phi);
+      }
     }
   };
   
@@ -161,6 +167,8 @@ namespace sim {
       ev.add(particle(2212,1,p_out));       ev.add(particle( 111,2,vec));
       ev.add(particle(-211,1,decayOne));    ev.add(particle( 211,1,decayTwo));
       ev.beamPol = rpol<0?-1.0:1.0;
+      double phi = rng.Uniform(-M_PI, M_PI);
+      ev.rotateZ(phi);
     }
     //-------------------------------------------------------------------------
     double gamma_bj(double xB, double Q2)

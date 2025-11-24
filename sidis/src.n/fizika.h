@@ -176,7 +176,7 @@ lorentz4 (double _px, double _py, double _pz, double _e)
  lorentz4 (vector3 v, double energy) { fVect = v; fE = energy;};
 ~lorentz4 (){}
 
-double    px() const {return fVect.x();};
+  double    px() const {return fVect.x();};
  double    py() const {return fVect.y();};
  double    pz() const {return fVect.z();};
  double    x() const {return fVect.x();};
@@ -190,8 +190,7 @@ double    px() const {return fVect.x();};
  //{ if(M2()>0) return sqrt(M2()); else return sqrt(-M2());};
  double    e() const {return fE;};
  double    t() const {return fE;};
- vector3  vect()  const {return fVect;};
-
+ vector3   vect() const {return fVect;};
 
  void      setX(double _p){fVect.setX(_p);};
  void      setY(double _p){fVect.setY(_p);};
