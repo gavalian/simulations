@@ -9,9 +9,10 @@ void rhoproduce(){
   
   // set range for generation, Q2 min, Q2 max, Xb min, Xb max
   gen.setRange(1.5,2.5,0.05,1.0);
-
+  double weight = gen.scan(150000);
+  
   for(int j = 0; j < 24; j++) {
-    gen.generate();
+    gen.generate(weight);
     //cr.react.show();
     cr.react.getEvent(event);
     event.show();
