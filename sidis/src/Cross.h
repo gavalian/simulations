@@ -83,6 +83,7 @@ public:
     double sinTheta = std::sin(cand.ev.thetaPi);
 
     double sigma3 = dsigma_3fold(cand.ev.xB,cand.ev.Q2,cand.ev.y,cand.ev.eps,ph.dsigmaT_dt,ph.dsigmaL_dt);
+    
     double W_LU = cosTheta*cosTheta*WLU.LL+std::sqrt(2)*cosTheta*sinTheta*WLU.LT+sinTheta*sinTheta*WLU.TT;
     double W_UU = cosTheta*cosTheta*WUU.LL+std::sqrt(2)*cosTheta*sinTheta*WUU.LT+sinTheta*sinTheta*WUU.TT;
 

@@ -7,12 +7,20 @@ void generate2(){
   sim::generator gen(&cr);
   sim::event     event;
   
-  // set range for generation, Q2 min, Q2 max, Xb min, Xb max
   gen.setRange(1.5,2.5,0.05,1.0);
 
-  for(int j = 0; j < 24; j++) {
-    gen.generate();
-    cr.react.show();
+  //gen.generate();
+  //gen.updateWeight();
+  
+  double weight = gen.scan(150000);
+  //printf("maximum wiegh scan = %f\n",weight);  
+  // set range for generation, Q2 min, Q2 max, Xb min, Xb max
+  
+  
+  for(int j = 0; j < 12000; j++) {
+    gen.generate(weight);
+    cr.react.getEvent(event);
+    event.show();
     //cr.react.getEvent(event);
     //event.show();
   }

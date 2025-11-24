@@ -57,7 +57,7 @@ namespace sim {
   };
   
   class reaction {
-
+  public:
     static constexpr double Mp = 0.93827;
 
     double Mv = 1.02;
@@ -133,6 +133,17 @@ namespace sim {
     double E(){return rbeam;}
     double xB(){return rxb;}
     double pol(){return rpol;}
+    
+    double Y(){
+      double nu = rq2/(2.0*Mp*rxb);
+      return nu/rbeam;
+    }
+
+    double Eps(){
+      double gg = gamma_bj(rxb,rq2);
+      double y = Y();
+      return epsilon(y,gg);
+    }
     //-------------------------------------------------------------------------
     void show(){
       printf("header: production [%9.5f, %9.5f], decay [%9.5f %9.5f]\n",prodTheta,
