@@ -92,11 +92,12 @@ class generator {
     updateWeight();
     generated++;
     double accept = rand.Uniform(0,maxWeight);
-    
+    //printf(" %f ");
     while(accept<=cand->weight){
       misses++;
       generate();
       updateWeight();
+      accept = rand.Uniform(0,maxWeight);
       generated++;
     }
     accepted++;
