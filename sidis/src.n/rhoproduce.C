@@ -15,6 +15,7 @@ void rhoproduce(){
     gen.generate(weight);
     //cr.react.show();
     cr.react.getEvent(event);
+    // printf(" %d\n", event.beamPol);
     event.show();
   }
 

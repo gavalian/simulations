@@ -22,8 +22,8 @@ namespace sim {
   public:
     std::vector<particle> pts;
     std::vector<double>   params;
-    int beamPol = 1;
-    int targetPol = 0;
+    double beamPol = 1;
+    double targetPol = 0;
     int beamPID = 11;
     int targetPID = 2212;
     double beamEnergy = 10.6;
@@ -47,7 +47,7 @@ namespace sim {
     }
     void show(){
       printf("%5d %4d %4d %5.2f %5.2f %5d %8.5f %5d %3d %e ",
-	     (int) pts.size(), beamPol, targetPol,
+	     (int) pts.size(), (int) beamPol, (int) targetPol,
 	     0.0,1.0, beamPID, beamEnergy, targetPID, 1, 0.6
 	     );
       for(int i = 0; i < (int) params.size(); i++) printf("%9.5f ",params[i]);
@@ -95,6 +95,7 @@ namespace sim {
       rq2 = q2_; rxb = xb_; produce__(rbeam,rq2,rxb);
       produce__2();produce__3();
       rpol = rng.Uniform(-1, 1);
+      //printf("POLARIZATION = %f\n",rpol);
     }
     //-------------------------------------------------------------------------
     void produce__(double beame_, double q2_, double xb_){
@@ -159,6 +160,7 @@ namespace sim {
       ev.add(particle(2212,0,p_in));        ev.add(particle(  11,1,e_out));
       ev.add(particle(2212,1,p_out));       ev.add(particle( 111,2,vec));
       ev.add(particle(-211,1,decayOne));    ev.add(particle( 211,1,decayTwo));
+      ev.beamPol = rpol<0?-1.0:1.0;
     }
     //-------------------------------------------------------------------------
     double gamma_bj(double xB, double Q2)
