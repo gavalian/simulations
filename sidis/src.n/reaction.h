@@ -94,6 +94,7 @@ namespace sim {
     void generate(double q2_, double xb_){
       rq2 = q2_; rxb = xb_; produce__(rbeam,rq2,rxb);
       produce__2();produce__3();
+      rpol = rng.Uniform(-1, 1);
     }
     //-------------------------------------------------------------------------
     void produce__(double beame_, double q2_, double xb_){
