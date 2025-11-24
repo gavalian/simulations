@@ -23,8 +23,14 @@ class generator {
   double q2_min, q2_max;
   double xb_min, xb_max;
   double E;
+
+  int generated, accepted;
+  
  public:
-  generator(candidate *c){ cand = c; E = cand->react.E();}
+  generator(candidate *c){
+    cand = c; E = cand->react.E();
+    generated = 0; accepted = 0;
+  }
   
   void setRange(double __q2min, double __q2max, double __xbmin, double __xbmax){
     q2_min = __q2min; q2_max = __q2max;
@@ -84,15 +90,22 @@ class generator {
     int misses = 0;
     generate();
     updateWeight();
+    generated++;
     double accept = rand.Uniform(0,maxWeight);
+    
     while(accept<=cand->weight){
       misses++;
       generate();
       updateWeight();
+      generated++;
     }
+    accepted++;
     //printf("misses = %d\n",misses);
   }
-  
+  void stats(){
+    printf("\ngenerator %d %d ~ %f\n\n",generated, accepted,
+	   ((double) accepted)/generated  );
+  }
   void updateWeight(){
      double t = (cand->react.p_out-cand->react.p_in).m2();
      physicsInput ph = loadPhysicsInputs(cand->react.xB(),cand->react.Q2(),t);
@@ -118,7 +131,7 @@ class generator {
      
      //printf("-t = %f %f %f %f\n",t,y,eps,sigma3);
      double w  = dsigma_7fold(W_UU,W_LU,0,0,0,0,
-			     ph.Pl,ph.SL,ph.ST, sigma3);
+			     pol,ph.SL,ph.ST, sigma3);
      //printf("sigmas = %f %f %f %f\n",W_LU,W_UU,sigma3, w);
      cand->weight = w;
   }

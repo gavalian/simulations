@@ -11,10 +11,12 @@ void rhoproduce(){
   gen.setRange(1.5,2.5,0.05,1.0);
   double weight = gen.scan(150000);
   
-  for(int j = 0; j < 24; j++) {
+  for(int j = 0; j < 24000; j++) {
     gen.generate(weight);
     //cr.react.show();
     cr.react.getEvent(event);
     event.show();
   }
+
+  gen.stats();
 }
