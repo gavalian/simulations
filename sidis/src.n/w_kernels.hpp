@@ -114,7 +114,7 @@
          Triple out;
  
          out.LL = -2.0 * sphi * ce_m * std::imag( U(u,'0','0','0','+') );
- 
+	 //printf("out.LL - %f - %f\n",out.LL, std::imag( U(u,'0','0','0','+')));
          out.LT =  spkp * ce_m *
                      std::imag( U(u,'0','+','0','+') - U(u,'-','0','0','+') )
                  - std::sin(kap) * std::sqrt(1.0-eps*eps) *

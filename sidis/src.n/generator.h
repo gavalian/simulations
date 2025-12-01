@@ -1,5 +1,6 @@
 #include "reaction.h"
 #include "w_kernels.hpp"
+#include "cross.h"
 
 #ifndef __GENERATOR__
 #define __GENERATOR__
@@ -81,8 +82,10 @@ class generator {
     for(int i = 0; i < count; i++){
       generate();
       updateWeight();
+      //printf("weight = %f\n",cand->weight);
       if(cand->weight>maxWeight) maxWeight = cand->weight;
     }
+    //printf("max weight = %f\n",maxWeight);
     return maxWeight*1.2;
   }
 
@@ -92,9 +95,10 @@ class generator {
     updateWeight();
     generated++;
     double accept = rand.Uniform(0,maxWeight);
-    //printf(" %f ");
-    while(accept<=cand->weight){
+    printf("try 0 : %f %f \n",accept, cand->weight);
+    while(accept>cand->weight){
       misses++;
+      //printf("missed = %d : %f %f \n",misses,accept, cand->weight);
       generate();
       updateWeight();
       accept = rand.Uniform(0,maxWeight);
@@ -107,9 +111,32 @@ class generator {
     printf("\ngenerator %d %d ~ %f\n\n",generated, accepted,
 	   ((double) accepted)/generated  );
   }
+
+  double scan2(int count){
+    double maxWeight = 0.0;
+    for(int i = 0; i < count; i++){
+      generate();
+      updateWeight2();
+      if(cand->weight>maxWeight) maxWeight = cand->weight;
+    }
+    return maxWeight*1.2;
+  }
+  
+  void updateWeight2(){
+    
+    cross c;
+    double t = (cand->react.p_out-cand->react.p_in).m2();
+    double w = c.weight(cand->react.Q2(),cand->react.xB(),t,
+			cand->react.prodTheta, cand->react.prodPhi,
+			cand->react.decayTheta,
+			cand->react.decayPhi,1.0);
+    cand->weight = w;
+  }
+  
   void updateWeight(){
      double t = (cand->react.p_out-cand->react.p_in).m2();
      physicsInput ph = loadPhysicsInputs(cand->react.xB(),cand->react.Q2(),t);
+
      double  Q2 = cand->react.Q2();
      double  xB = cand->react.xB();
      double   y = cand->react.Y();
@@ -152,7 +179,7 @@ class generator {
     ph.dsigmaT_dt = 1.0;   // placeholder
     ph.dsigmaL_dt = 1.0;   // placeholder
     
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {1.00, 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {0.5*exp(t), 0.0000};   // real example
     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {1.00, 0.0000};   // real example
     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.25, 0.2000};   // real example
     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('-')][Wkernels::h('+')] = {0.00, 0.0000};
