@@ -95,7 +95,7 @@ class generator {
     updateWeight();
     generated++;
     double accept = rand.Uniform(0,maxWeight);
-    printf("try 0 : %f %f \n",accept, cand->weight);
+    //printf("try 0 : %f %f \n",accept, cand->weight);
     while(accept>cand->weight){
       misses++;
       //printf("missed = %d : %f %f \n",misses,accept, cand->weight);
@@ -179,9 +179,9 @@ class generator {
     ph.dsigmaT_dt = 1.0;   // placeholder
     ph.dsigmaL_dt = 1.0;   // placeholder
     
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {0.5*exp(t), 0.0000};   // real example
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {1.00, 0.0000};   // real example
-    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.25, 0.2000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')][Wkernels::h('+')] = {1.0*exp(2*t), 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')] = {0.00, 0.0000};   // real example
+    ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('+')] = {0.00, 0.0000};   // real example
     ph.u[Wkernels::h('0')][Wkernels::h('0')][Wkernels::h('-')][Wkernels::h('+')] = {0.00, 0.0000};
     
     return ph;
