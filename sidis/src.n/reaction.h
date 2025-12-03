@@ -122,7 +122,7 @@ namespace sim {
     //-------------------------------------------------------------------------
     void produce__3(){
       double cos_t = rng.Uniform(-1,1); double phi = rng.Uniform(-M_PI, M_PI);
-      cos_t = 0.5; phi = 0.0; // -- debug
+      //cos_t = 0.5; phi = 0.0; // -- debug
       decayTheta   = acos(cos_t); decayPhi     = phi;
       std::vector<fizika::lorentz4> products = decay.decay(q,vec,decayDaughterMassOne,
 							   decayDaughterMassTwo,cos_t,phi);
