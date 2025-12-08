@@ -79,6 +79,9 @@ namespace sim {
     double decayTheta, decayPhi;
     double prodTheta, prodPhi;
     double decayDaughterMassOne,decayDaughterMassTwo;
+    int    particleIDproduce = 111;
+    int    particleIDdecayOne = 211;
+    int    particleIDdecayTwo = -211;
     
     TRandom3 rng;
 
@@ -88,13 +91,17 @@ namespace sim {
 
     reaction(){}
     reaction(double beame_, double massv_){
-      rbeam = beame_; Mv = massv_;
+      rbeam = beame_; Mv = massv_; 
     }
     //-------------------------------------------------------------------------
     void set(double beame_, double massv_){ rbeam = beame_; Mv = massv_;}
     //-------------------------------------------------------------------------
     void setDecay(double dm1, double dm2){
       decayDaughterMassOne=dm1; decayDaughterMassTwo = dm2;
+    }
+
+    void setDecayIds(int parent, int d1, int d2){
+      particleIDproduce = parent; particleIDdecayOne = d1; particleIDdecayTwo = d2;
     }
     //-------------------------------------------------------------------------
     void generate(double q2_, double xb_){
@@ -163,11 +170,13 @@ namespace sim {
     }
     //-------------------------------------------------------------------------
     void getEvent(event &ev){
+      ev.beamEnergy = rbeam;
       ev.reset(); ev.add(rq2); ev.add(rxb); ev.add(prodTheta); ev.add(prodPhi);
       ev.add(decayTheta); ev.add(decayPhi); ev.add(particle(  11,0,e_in));
       ev.add(particle(2212,0,p_in));        ev.add(particle(  11,1,e_out));
-      ev.add(particle(2212,1,p_out));       ev.add(particle( 111,2,vec));
-      ev.add(particle(-211,1,decayOne));    ev.add(particle( 211,1,decayTwo));
+      ev.add(particle(2212,1,p_out));       ev.add(particle( particleIDproduce,2,vec));
+      
+      ev.add(particle(particleIDdecayTwo,1,decayOne));    ev.add(particle( particleIDdecayOne,1,decayTwo));
       ev.beamPol = rpol<0?-1.0:1.0;
       double phi = rng.Uniform(-M_PI, M_PI);
       ev.rotateZ(phi);

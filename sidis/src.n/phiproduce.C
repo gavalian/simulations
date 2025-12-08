@@ -7,6 +7,8 @@ void phiproduce(){
   sim::candidate cr(10.6,1.02,0.49368,0.49368);
   sim::generator gen(&cr);
   sim::event     event;
+
+  cr.react.setDecayIds(333,321,-321);
   
   // set range for generation, Q2 min, Q2 max, Xb min, Xb max
   gen.setRange(1.5,2.5,0.05,1.0);

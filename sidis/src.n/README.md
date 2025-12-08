@@ -9,6 +9,12 @@ Use ROOT to run the example codes:
 root -l generate.C
 ```
 
+To save the output into lund file use command"
+
+```
+root -l -q -e ".x phiproduce.C " | grep -v '^$' > data.lund
+```
+
 # code output
 
 The code outputs the simlated particles and their decays.
