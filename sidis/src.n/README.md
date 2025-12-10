@@ -15,6 +15,35 @@ To save the output into lund file use command"
 root -l -q -e ".x phiproduce.C " | grep -v '^$' > data.lund
 ```
 
+#Fast Monte-Carlo simulations for CLAS12
+
+The new fastMC package offers event analysis for CLAS12 detector
+responses. It can be run on LUND files to mark particles that will
+be registered by different detectors. To run fastMC the clas12 
+environment must be activated on farms and then run the code
+to analyze the LUND file.
+
+```
+module load clas12
+java -jar /home gavalian/Software/fastMC/fastMC.jar input.lund output.lund
+```
+
+If no output lund file is given, and automatically generated output name
+will be used, by appending "_fastmc.lund" to the end of input file name.
+
+In the output file, the 6-th column of the particle list will be changed
+to reflect detector responses for the particle, the number 0 will be 
+changed to numbers 5,6,7 or 8, with following convention
+
+```
+0 - no detector was hit
+5 - only DC (all 6 superlayers were hit)
+6 - the DC (all 6 superlayers), and FTOF was hit (no ECAL)
+7 - the DC and ECAL were hit (no FTOF)
+8 - the DC, FTOF and ECAL all were hit by the particle
+```
+
+
 # code output
 
 The code outputs the simlated particles and their decays.

@@ -8,7 +8,7 @@ void rhoproduce(){
   sim::event     event;
   
   // set range for generation, Q2 min, Q2 max, Xb min, Xb max
-  gen.setRange(2.45,2.5,0.35,0.36);
+  gen.setRange(1.45,4.5,0.1,0.7);
   double weight = gen.scan(150000);
   
   for(int j = 0; j < 24000; j++) {
