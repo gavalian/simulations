@@ -18,7 +18,8 @@ void phiproduce(){
     //cr.react.show();
     cr.react.getEvent(event);
     // printf(" %d\n", event.beamPol);
-    event.show();
+    if(event.hasNaN()==false)
+      event.show();
   }
 
   //gen.stats();

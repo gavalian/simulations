@@ -45,6 +45,16 @@ namespace sim {
 	     pts[row].vrtx.x(),pts[row].vrtx.y(),pts[row].vrtx.z()
 	     );
     }
+
+    bool hasNaN(){
+      for(int i = 0; i < (int) pts.size(); i++){
+	if(std::isnan(pts[i].v.px())) return true;
+	if(std::isnan(pts[i].v.py())) return true;
+	if(std::isnan(pts[i].v.pz())) return true;
+      }
+      return false;
+    }
+    
     void show(){
       printf("%5d %4d %4d %5.2f %5.2f %5d %8.5f %5d %3d %e ",
 	     (int) pts.size(), 1, 0, beamPol, targetPol,
@@ -79,7 +89,7 @@ namespace sim {
     double decayTheta, decayPhi;
     double prodTheta, prodPhi;
     double decayDaughterMassOne,decayDaughterMassTwo;
-    int    particleIDproduce = 111;
+    int    particleIDproduce = 113;
     int    particleIDdecayOne = 211;
     int    particleIDdecayTwo = -211;
     

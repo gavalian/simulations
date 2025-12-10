@@ -25,7 +25,7 @@ to analyze the LUND file.
 
 ```
 module load clas12
-java -jar /home gavalian/Software/fastMC/fastMC.jar input.lund output.lund
+java -jar /home/gavalian/Software/fastMC/fastMC.jar input.lund output.lund
 ```
 
 If no output lund file is given, and automatically generated output name
